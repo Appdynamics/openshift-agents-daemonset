@@ -1,0 +1,53 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  labels:
+    app: appdynamics-agents
+    tier: monitoring
+    version: v1
+  name: appd-agents
+spec:
+  template:
+    metadata:
+      labels:
+        app: appd-agents
+      name: appd-agents
+    spec:
+      serviceAccountName: appd
+      containers:
+        - env:
+            - name: APPDYNAMICS_CONTROLLER_HOST_NAME
+              value: ""
+            - name: APPDYNAMICS_CONTROLLER_PORT
+              value: ""
+            - name: APPDYNAMICS_AGENT_ACCOUNT_NAME
+              value: "customer1"
+            - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
+              value: ""
+            - name: APPDYNAMICS_SIM_ENABLED
+              value: "true"
+            - name: APPDYNAMICS_DOCKER_ENABLED
+              value: "true"
+            - name: APPDYNAMICS_CONTROLLER_SSL_ENABLED
+              value: "false"
+          image: "michaelenglert/appd-agent"
+          name: appd-agents
+          securityContext: # Added so this would also work on RedHat Openshift
+            privileged: true
+          volumeMounts:
+            - mountPath: /app-agent
+              name: app-agent
+            - mountPath: /var/run/docker.sock
+              name: docker-sock
+            - mountPath: /hostroot
+              name: host-root
+      volumes:
+        - hostPath:
+            path: /
+          name: host-root
+        - hostPath:
+            path: /opt/app-agent
+          name: app-agent
+        - hostPath:
+            path: /var/run/docker.sock
+          name: docker-sock
