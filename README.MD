@@ -65,12 +65,12 @@ From a license perspective you need a **Server Visibility License** to use this 
 
 ## Monitor an Application
 To deploy an Application that is monitored by the AppDynamics Java Agent you need to do the following:
-* Add the Volume to your Application **Adjust accordingly if you do not use hostPath**
-* Patch the deployment so we can mount our host volume **Only needed for hostPath**
-  * ```oc patch dc <YOUR_APP> -p '{"spec":{"template":{"spec":{"serviceAccountName":"appd"}}}}'```
-* Add the Host Volume
-  * ```oc volume dc/<YOUR_APP> --add -t hostPath -m /app-agent --path /opt/app-agent/```
-* Set some environment variables
+* **Adjust accordingly if you do not use hostPath** Add the Volume to your Application
+  * **Only needed for hostPath:** Patch the deployment so we can mount our host volume
+    * ```oc patch dc <YOUR_APP> -p '{"spec":{"template":{"spec":{"serviceAccountName":"appd"}}}}'```
+  * Add the Host Volume
+    * ```oc volume dc/<YOUR_APP> --add -t hostPath -m /app-agent --path /opt/app-agent/```
+* Set Environment Variables
   * APPDYNAMICS_AGENT_APPLICATION_NAME - Set AppDynamics App Name
   * APPDYNAMICS_AGENT_TIER_NAME - Set AppDynamics Tier Name
   * JAVA_OPTS - Actually adding the Agent and use Node Reuse
