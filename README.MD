@@ -64,8 +64,9 @@ From a license perspective you need a **Server Visibility License** to use this 
   * ```oc create -f appd-agents.yml```
 
 ## Monitor an Application
-To deploy an Application that is monitored by the AppDynamics Java Agent you need to do the following:
-* **Adjust accordingly if you do not use hostPath** Add the Volume to your Application
+To deploy an Application that is monitored by the AppDynamics Java Agent you need to do the following (**Adjust accordingly if you do not use hostPath**):
+
+* Add the Volume to your Application
   * **Only needed for hostPath:** Patch the deployment so we can mount our host volume
     * ```oc patch dc <YOUR_APP> -p '{"spec":{"template":{"spec":{"serviceAccountName":"appd"}}}}'```
   * Add the Host Volume
