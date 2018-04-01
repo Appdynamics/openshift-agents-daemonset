@@ -14,11 +14,7 @@ From a license perspective you need a **Server Visibility License** to use this 
 ## Repository Structure
 | Folder                                           | Description                                                     |
 |--------------------------------------------------|-----------------------------------------------------------------|
-| `_common`                                        | Files that span across each platform                            |
-| `_common/.ebextensions/nginx`                    | Nginx configuration for the sample application                  |
-| `<platform>-(machine)-(analytics)`               | Platform and Agent specific scripts                             |
-| `<platform>-(machine)-(analytics)/.ebextensions` | Platform specific AWS Elastic Beanstalk Extension Configuration |
-| `<platform>-(machine)-(analytics)/testing`       | Testing Script for Linux                                        |
+| `appd-agents.yml`                                | OpenShift DaemonSet Deployment Specification                    |
 ## Requirements
 * OpenShift Cluster up and running
 * `oc` CLI installed
@@ -67,4 +63,20 @@ From a license perspective you need a **Server Visibility License** to use this 
 * Deploy the Agent
   * ```oc create -f appd-agents.yml```
 
-## Deploy a Sample App
+## Monitor an Application
+To deploy an Application that is monitored by the AppDynamics Java Agent you need to do the following:
+* Add the Volume to your Application **Adjust accordingly if you do not use hostPath**
+* Patch the deployment so we can mount our host volume **Only needed for hostPath**
+  * ```oc patch dc <YOUR_APP> -p '{"spec":{"template":{"spec":{"serviceAccountName":"appd"}}}}'```
+* Add the Host Volume
+  * ```oc volume dc/<YOUR_APP> --add -t hostPath -m /app-agent --path /opt/app-agent/```
+* Set some environment variables
+  * APPDYNAMICS_AGENT_APPLICATION_NAME - Set AppDynamics App Name
+  * APPDYNAMICS_AGENT_TIER_NAME - Set AppDynamics Tier Name
+  * JAVA_OPTS - Actually adding the Agent and use Node Reuse
+  * ```oc env dc/<YOUR_APP> APPDYNAMICS_AGENT_APPLICATION_NAME=app APPDYNAMICS_AGENT_TIER_NAME=springscale JAVA_OPTS="-Dappdynamics.agent.reuse.nodeName.prefix=springscale -Dappdynamics.agent.reuse.nodeName=true -javaagent:/app-agent/javaagent.jar"```
+
+## Agent Base Image
+To deploy the DaemonSet a Docker Base Image is used. This Image can be found in the [Docker Agent Repository].
+
+[Docker Agent Repository]: https://github.com/michaelenglert/docker.appd_agents
