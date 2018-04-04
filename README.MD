@@ -75,7 +75,7 @@ To deploy an Application that is monitored by the AppDynamics Java Agent you nee
   * APPDYNAMICS_AGENT_APPLICATION_NAME - Set AppDynamics App Name
   * APPDYNAMICS_AGENT_TIER_NAME - Set AppDynamics Tier Name
   * JAVA_OPTS - Actually adding the Agent and use Node Reuse
-  * ```oc env dc/<YOUR_APP> APPDYNAMICS_AGENT_APPLICATION_NAME=app APPDYNAMICS_AGENT_TIER_NAME=springscale JAVA_OPTS="-Dappdynamics.agent.reuse.nodeName.prefix=springscale -Dappdynamics.agent.reuse.nodeName=true -javaagent:/app-agent/javaagent.jar"```
+  * ```oc env dc/<YOUR_APP> APPDYNAMICS_AGENT_APPLICATION_NAME=<APPDYNAMICS_AGENT_APPLICATION_NAME> APPDYNAMICS_AGENT_TIER_NAME=<APPDYNAMICS_AGENT_TIER_NAME> JAVA_OPTS="-Dappdynamics.agent.reuse.nodeName.prefix=<APPDYNAMICS_AGENT_TIER_NAME> -Dappdynamics.agent.reuse.nodeName=true -javaagent:/app-agent/javaagent.jar"```
 
 ## Agent Base Image
 To deploy the DaemonSet a Docker Base Image is used. This Image can be found in the [Docker Agent Repository].
