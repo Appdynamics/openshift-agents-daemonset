@@ -37,7 +37,7 @@ spec:
           image: "michaelenglert/appd-agent"
           name: appd-agents
           ports:
-          - containerPort: 80
+          - containerPort: 9090
             protocol: TCP
           securityContext: # Added so this would also work on RedHat Openshift
             privileged: true
