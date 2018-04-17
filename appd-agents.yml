@@ -46,7 +46,7 @@ spec:
             path: /
           name: host-root
         - hostPath:
-            path: /opt/appagent
+            path: /opt/appdynamics/appagent
           name: appagent
         - hostPath:
             path: /var/run/docker.sock
