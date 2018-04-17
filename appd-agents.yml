@@ -35,8 +35,8 @@ spec:
           securityContext: # Added so this would also work on RedHat Openshift
             privileged: true
           volumeMounts:
-            - mountPath: /app-agent
-              name: app-agent
+            - mountPath: /opt/appdynamics/appagent
+              name: appagent
             - mountPath: /var/run/docker.sock
               name: docker-sock
             - mountPath: /hostroot
@@ -46,8 +46,8 @@ spec:
             path: /
           name: host-root
         - hostPath:
-            path: /opt/app-agent
-          name: app-agent
+            path: /opt/appagent
+          name: appagent
         - hostPath:
             path: /var/run/docker.sock
           name: docker-sock
