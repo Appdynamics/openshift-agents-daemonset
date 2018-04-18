@@ -10,7 +10,7 @@ From a license perspective you need a **Server Visibility License** to use this 
 ## Supported Technologies/Agents
 | Platform | Application Agent | Machine Agent | Analytics Agent |
 |:--------:|:-----------------:|:-------------:|:---------------:|
-| Java     | Yes               | Yes           | WIP             |
+| Java     | Yes               | Yes           | Yes             |
 ## Repository Structure
 | Folder / File                  | Description                                                     |
 |--------------------------------|-----------------------------------------------------------------|
