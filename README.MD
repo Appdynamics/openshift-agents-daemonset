@@ -12,9 +12,10 @@ From a license perspective you need a **Server Visibility License** to use this 
 |:--------:|:-----------------:|:-------------:|:---------------:|
 | Java     | Yes               | Yes           | WIP             |
 ## Repository Structure
-| Folder                                           | Description                                                     |
-|--------------------------------------------------|-----------------------------------------------------------------|
-| `appd-agents.yml`                                | OpenShift DaemonSet Deployment Specification                    |
+| Folder / File                  | Description                                                     |
+|--------------------------------|-----------------------------------------------------------------|
+| `appd-agents.yml`              | OpenShift DaemonSet Deployment Specification                    |
+| `appd-agents-analytics.yml`    | OpenShift DaemonSet Deployment Specification with Analytics     |
 ## Requirements
 * OpenShift Cluster up and running
 * `oc` CLI installed
@@ -76,6 +77,11 @@ To deploy an Application that is monitored by the AppDynamics Java Agent you nee
   * APPDYNAMICS_AGENT_TIER_NAME - Set AppDynamics Tier Name
   * JAVA_OPTS - Actually adding the Agent and use Node Reuse
   * ```oc env dc/<YOUR_APP> APPDYNAMICS_AGENT_APPLICATION_NAME=<APPDYNAMICS_AGENT_APPLICATION_NAME> APPDYNAMICS_AGENT_TIER_NAME=<APPDYNAMICS_AGENT_TIER_NAME> JAVA_OPTS="-Dappdynamics.agent.reuse.nodeName.prefix=<APPDYNAMICS_AGENT_TIER_NAME> -Dappdynamics.agent.reuse.nodeName=true -javaagent:/opt/appdynamics/appagent/javaagent.jar"```
+
+## Enable Analytics
+To enable Analytics you need to provide the `APPDYNAMICS_AGENT_GLOBAL_ACCOUNT_NAME` and the `APPDYNAMICS_ANALYTICS_EVENT_ENDPOINT` for the DaemonSet. If these variables are present the Analytics Plugin will be configured automatically. These values are configured in the [Analytics DaemonSet](appd-agents-analytics.yml).
+
+The Application you want to send Analytics data from needs to know where the Analytics Plugin is listening. To configure this the environment variable `JAVA_OPTS` has to be enhanced by this option `-Dappdynamics.analytics.agent.url=http://<IP or HOST Route to the Daemonset>:<EXPOSED PORT>/v2/sinks/bt` the Default port the Analytics Plugin listens at is `9090`.
 
 ## Agent Base Image
 To deploy the DaemonSet a Docker Base Image is used. This Image can be found in the [Docker Agent Repository].
